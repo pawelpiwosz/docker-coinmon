@@ -1,0 +1,26 @@
+language: bash
+
+# Use container-based infrastructure for quicker build start-up
+sudo: false
+
+addons:
+  apt:
+    sources:
+    - debian-sid    # Grab shellcheck from the Debian repo (o_O)
+    packages:
+    - shellcheck
+
+script:
+- echo $TRAVIS_COMMIT
+- echo $TRAVIS_TAG
+- echo $TRAVIS_BRANCH
+- echo $TRAVIS_BUILD_NUMBER
+- echo $TRAVIS_REPO_SLUG
+- shellcheck *.sh
+
+services:
+- docker
+
+script:
+
+- test.sh $TRAVIS_BRANCH $TRAVIS_COMMIT 
