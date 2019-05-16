@@ -1,14 +1,12 @@
+sudo: required
+dist: trusty
 language: bash
 
-# Use container-based infrastructure for quicker build start-up
-sudo: false
-
-addons:
-  apt:
-    sources:
-    - debian-sid    # Grab shellcheck from the Debian repo (o_O)
-    packages:
-    - shellcheck
+before_install:
+  - sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse"
+  - sudo apt-get -qq update
+  - sudo apt-get -t trusty-backports install shellcheck
+  - sudo pip install bashate
 
 script:
 - echo $TRAVIS_COMMIT
@@ -23,4 +21,4 @@ services:
 
 script:
 
-- test.sh $TRAVIS_BRANCH $TRAVIS_COMMIT 
+- test.sh $TRAVIS_BRANCH $TRAVIS_COMMIT
