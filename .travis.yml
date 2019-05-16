@@ -1,0 +1,27 @@
+sudo: required
+dist: trusty
+language: bash
+
+services:
+  - docker
+
+before_script:
+  - sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse"
+  - sudo apt-get -qq update
+  - sudo apt-get -t trusty-backports install shellcheck
+  - sudo pip install bashate
+
+
+
+script:
+  - echo $TRAVIS_COMMIT
+  - echo $TRAVIS_TAG
+  - echo $TRAVIS_BRANCH
+  - echo $TRAVIS_BUILD_NUMBER
+  - echo $TRAVIS_REPO_SLUG
+  # not used at the moment, but will be
+  # - shellcheck *.sh
+  # - bashate *.sh
+  # - test.sh $TRAVIS_BRANCH $TRAVIS_COMMIT
+
+  - docker build -t coinmon .
