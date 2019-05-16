@@ -20,8 +20,8 @@ script:
   - echo $TRAVIS_BUILD_NUMBER
   - echo $TRAVIS_REPO_SLUG
   # not used at the moment, but will be
-  # - shellcheck *.sh
-  # - bashate *.sh
-  # - test.sh $TRAVIS_BRANCH $TRAVIS_COMMIT
+   - shellcheck *.sh
+   - bashate *.sh
+   - test.sh $TRAVIS_BRANCH $TRAVIS_COMMIT
 
-  - docker build -t coinmon .
+  # - docker build -t coinmon .
