@@ -1,5 +1,9 @@
 ## Cryptocurrency viewer
 
+#### Tests status
+
+[![Build Status](https://travis-ci.org/pawelpiwosz/docker-coinmon.svg?branch=master)](https://travis-ci.org/pawelpiwosz/docker-coinmon)
+
 #### Synopsis
 
 Check current price of cryptocurrencies.  
