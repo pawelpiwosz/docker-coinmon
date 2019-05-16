@@ -22,6 +22,6 @@ script:
   # not used at the moment, but will be
   - shellcheck *.sh
   - bashate *.sh
-  - test.sh $TRAVIS_BRANCH $TRAVIS_COMMIT
+  - ./test.sh $TRAVIS_BRANCH $TRAVIS_COMMIT
 
   # - docker build -t coinmon .
