@@ -2,6 +2,15 @@ sudo: required
 dist: trusty
 language: bash
 
+stages:
+  - name: Script tests
+  - name: Build test
+    if: branch != master
+  - name: Push container
+    if: branch = master
+  - name: Check container
+    if: branch = master
+
 services:
   - docker
 
@@ -11,17 +20,35 @@ install:
   - sudo apt-get -t trusty-backports install shellcheck
   - sudo pip install bashate
 
+jobs:
+  include:
+  - stage: Script tests
+    script:
+      - echo ${TRAVIS_COMMIT}
+      - echo ${TRAVIS_TAG}
+      - echo ${TRAVIS_BRANCH}
+      - echo ${TRAVIS_BUILD_NUMBER}
+      - echo ${TRAVIS_REPO_SLUG}
+      # test bash scripts
+      - shellcheck *.sh
+      - bashate *.sh
 
+  - stage: Build test
+    script:
+      - ./test.sh ${TRAVIS_BRANCH} ${TRAVIS_COMMIT}
+      - docker run --rm coinmon -f BTC
 
-script:
-  - echo $TRAVIS_COMMIT
-  - echo $TRAVIS_TAG
-  - echo $TRAVIS_BRANCH
-  - echo $TRAVIS_BUILD_NUMBER
-  - echo $TRAVIS_REPO_SLUG
-  # not used at the moment, but will be
-  - shellcheck *.sh
-  - bashate *.sh
-  - ./test.sh ${TRAVIS_BRANCH} ${TRAVIS_COMMIT}
+  - stage: Push container
+    script:
+      - echo "push to repo"
+      - docker build -t coinmon .
+      - docker images
+      - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+      - docker tag coinmon ${DOCKER_USERNAME}/coinmon
+      - docker push ${DOCKER_USERNAME}/coinmon
+      - docker logout
 
-  # - docker build -t coinmon .
+  - stage: Check container
+    script:
+      - docker pull ${DOCKER_USERNAME}/coinmon
+      - docker run --rm ${DOCKER_USERNAME}/coinmon -f BTC
