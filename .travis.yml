@@ -5,7 +5,6 @@ language: bash
 stages:
   - name: Script tests
   - name: Build test
-  - name: Test run
     if: branch != master
   - name: Push container
     if: branch = master
@@ -37,9 +36,6 @@ jobs:
   - stage: Build test
     script:
       - ./test.sh ${TRAVIS_BRANCH} ${TRAVIS_COMMIT}
-
-  - stage: Test run
-    script:
       - docker run --rm coinmon -f BTC
 
   - stage: Push container
