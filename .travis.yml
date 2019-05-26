@@ -44,7 +44,7 @@ jobs:
       - BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
       - VCS_REF=$(git rev-parse --short HEAD)
       - VER=$(cat VERSION)
-      - docker build --build-arg BUILD_DATE=${BUILD_DATE} --build-arg VCS_REF=${VCS_REF} --build-arg VER=${VER}-t coinmon .
+      - docker build --build-arg BUILD_DATE=${BUILD_DATE} --build-arg VCS_REF=${VCS_REF} --build-arg VER=${VER} -t coinmon .
       - docker images
       - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
       - docker tag coinmon ${DOCKER_USERNAME}/coinmon
