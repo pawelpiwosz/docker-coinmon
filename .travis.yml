@@ -7,9 +7,9 @@ stages:
   - name: Build test
     if: branch != master
   - name: Push container
-    if: branch = master
+    if: branch = master && type = pull_request
   - name: Check container
-    if: branch = master
+    if: branch = master || type = pull_request
 
 services:
   - docker
@@ -40,8 +40,10 @@ jobs:
 
   - stage: Push container
     script:
-      - echo "push to repo"
-      - docker build -t coinmon .
+      - echo "Push to repo"
+      - BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+      - VCS_REF=$(git rev-parse --short HEAD)
+      - docker build --build-arg BUILD_DATE=${BUILD_DATE} --build-arg VCS_REF=${VCS_REF} -t coinmon .
       - docker images
       - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
       - docker tag coinmon ${DOCKER_USERNAME}/coinmon
