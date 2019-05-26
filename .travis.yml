@@ -48,6 +48,7 @@ jobs:
       - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
       - docker tag coinmon ${DOCKER_USERNAME}/coinmon
       - docker push ${DOCKER_USERNAME}/coinmon
+      - curl -X POST https://hooks.microbadger.com/images/almerhor/coinmon/_FJnvGl5OO8detPMsXoqfnXXChw=
       - docker logout
 
   - stage: Check container
