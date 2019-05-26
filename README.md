@@ -12,6 +12,14 @@
 Check current price of cryptocurrencies.  
 Built based on `coinmon`
 
+#### Pull container
+
+In order to pull container, run:
+
+```
+docker pull almerhor/coinmon
+```
+
 #### Build container
 
 ```
